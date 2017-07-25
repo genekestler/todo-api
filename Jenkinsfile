@@ -18,7 +18,7 @@ pipeline {
 					gitShortCommit(7)
 				}
 		}
-		stage('Build') {
+	stage('Build') {
 			steps {echo 'INFO - Starting Build phase'
 			       sh 'mvn validate'
 			       sh 'mvn compile'
@@ -43,18 +43,18 @@ pipeline {
 						//  archive 'target/*.jar' // i thought we were only going to archive on success, so this should just be a stash and the artifact for the todo-api should be *.war
 				}
 			)
-		  }
+			}
 		}
 		stage('Package') {
-		  steps {
-			echo 'INFO - Starting Package phase'
-			sh 'mvn clean package'
-			stash name: 'artifactName', includes: '*.xml'
+			steps {
+				echo 'INFO - Starting Package phase'
+				sh 'mvn clean package'
+				stash name: 'artifactName', includes: '*.xml'
 			}
 		}
 		stage('Deploy') {
-		  steps {
-			echo 'INFO - Starting Deploy phase'
+			steps {
+				echo 'INFO - Starting Deploy phase'
 	//-------------------------------------------------------------
 	//		sh 'mvn deploy' // this won't work until the todo-api pom is not configured to deploy
 	//		sh """
@@ -64,9 +64,9 @@ pipeline {
 	//			${somevalue}/bin/startup.sh
 	//		"""
 	//-------------------------------------------------------------
-				}
 			}
 		}
+	}
 	post {
 		success {
 			unstash 'artifactName'
