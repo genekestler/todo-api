@@ -9,14 +9,14 @@ pipeline {
 	stages {
 		stage('Checkout') {
 			steps {echo 'INFO - Retrieving Source'
-			//		git 'https://github.com/jglick/simple-maven-project-with-tests.git'
-					checkout scm		// create a multi-branch project that only checks out this branch
-					gitShortCommit(7)
+			//	git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+				checkout scm		// create a multi-branch project that only checks out this branch
+				gitShortCommit(7)
 			}
 		}
 		stage('Build') {
 			steps {echo 'INFO - Starting Build phase'
-			       sh 'mvn validate'
+			//     sh 'mvn validate'
 			       sh 'mvn compile'
 			       sh 'mvn clean install' // clean install does a compile, so no reason to do compile, also runs unit tests
 			}
