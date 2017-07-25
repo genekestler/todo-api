@@ -5,14 +5,11 @@ pipeline {
       skipDefaultCheckout()
    }
 	agent none
-	
 	script {artifactName='*.war'}
-	
 	stages {
 		stage('Checkout') {
 			agent { label 'docker-cloud' }
-				steps {
-					echo 'INFO - Retrieving Source'
+				steps {echo 'INFO - Retrieving Source'
 			//		git 'https://github.com/jglick/simple-maven-project-with-tests.git'
 					checkout scm		// create a multi-branch project that only checks out this branch
 					gitShortCommit(7)
@@ -26,8 +23,7 @@ pipeline {
 			}
 		}
 		stage('Test') {
-			steps {
-		//		echo 'INFO - Starting Test phase'
+			steps {echo 'INFO - Starting Test phase'
 				parallel(
 					"unit test": {
 						echo 'unit tests'
@@ -45,15 +41,13 @@ pipeline {
 			}
 		}
 		stage('Package') {
-			steps {
-				echo 'INFO - Starting Package phase'
+			steps {echo 'INFO - Starting Package phase'
 				sh 'mvn clean package'
 				stash name: 'artifactName', includes: '*.xml'
 			}
 		}
 		stage('Deploy') {
-			steps {
-				echo 'INFO - Starting Deploy phase'
+			steps {echo 'INFO - Starting Deploy phase'
 	//-------------------------------------------------------------
 	//		sh 'mvn deploy' // this won't work until the todo-api pom is not configured to deploy
 	//		sh """
