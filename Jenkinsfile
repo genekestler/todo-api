@@ -1,10 +1,11 @@
+
 pipeline {
    options {              
       timeout(time: 5, unit: 'MINUTES')
       buildDiscarder(logRotator(numToKeepStr: '5'))
       skipDefaultCheckout()
    }
-	agent { label 'docker-cloud'}
+	agent {label 'docker-cloud'}
 //	script {artifactName = *.war'}
 	stages {
 		stage('Checkout') {
@@ -15,6 +16,7 @@ pipeline {
 			}
 		}
 		stage('Build') {
+			agent {label 'maven-jdk-8'}
 			steps {echo 'INFO - Starting Build phase'
 			//     sh 'mvn validate'
 			//     sh 'mvn compile'
@@ -22,6 +24,7 @@ pipeline {
 			}
 		}
 		stage('Test') {
+			agent {label 'maven-jdk-8'}
 			steps {
 				parallel (
 					"unit test": {
@@ -40,12 +43,14 @@ pipeline {
 			}
 		}
 		stage('Package') {
+			agent {label 'maven-jdk-8'}
 			steps {echo 'INFO - Starting Package phase'
 				sh 'mvn clean package'
 				stash name: 'artifactName', includes: '*.xml'
 			}
 		}
 		stage('Deploy Archive Artifacts') {
+			agent {label 'maven-jdk-8'}
 			steps {echo 'INFO - Starting Deploy phase'
 	//-------------------------------------------------------------
 	//		sh 'mvn deploy' // this won't work until the todo-api pom is not configured to deploy
