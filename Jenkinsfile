@@ -2,13 +2,13 @@ pipeline {
    options {              
       timeout(time: 5, unit: 'MINUTES')
       buildDiscarder(logRotator(numToKeepStr: '5'))
-      skipDefaultCheckout() 
-    }
-   agent none
-
+      skipDefaultCheckout()
+   }
+	agent none
+	
 	script {artifactName='*.jar'}
-  
-  	stages {
+	
+	stages {
 		stage('Checkout') {
 			agent { label 'docker-cloud' }
 				steps {
@@ -17,14 +17,13 @@ pipeline {
 					checkout scm        // create a multi-branch project that only checks out this branch
 					gitShortCommit(7)
 				}
-			}
+		}
 		stage('Build') {
-		  steps {
-			echo 'INFO - Starting Build phase'
-			sh 'mvn validate'
-	//		sh 'mvn compile'
-			sh 'mvn clean install' // clean install does a compile, so no reason to do compile, also runs unit tests
-		  }
+			steps {echo 'INFO - Starting Build phase'
+			       sh 'mvn validate'
+			       sh 'mvn compile'
+			       sh 'mvn clean install' // clean install does a compile, so no reason to do compile, also runs unit tests
+			}
 		}
 		stage('Test') {
 		  steps {
