@@ -4,16 +4,15 @@ pipeline {
       buildDiscarder(logRotator(numToKeepStr: '5'))
       skipDefaultCheckout()
    }
-	agent none
+	agent { label 'docker-cloud'}
 //	script {artifactName = *.war'}
 	stages {
 		stage('Checkout') {
-			agent { label 'docker-cloud' }
-				steps {echo 'INFO - Retrieving Source'
+			steps {echo 'INFO - Retrieving Source'
 			//		git 'https://github.com/jglick/simple-maven-project-with-tests.git'
 					checkout scm		// create a multi-branch project that only checks out this branch
 					gitShortCommit(7)
-				}
+			}
 		}
 		stage('Build') {
 			steps {echo 'INFO - Starting Build phase'
