@@ -31,14 +31,14 @@ pipeline {
 				parallel(
 					"unit test": {
 						echo 'unit tests'
-						mvn test
+						sh 'mvn test'
 						// generate a maven unit test report using surefire
-						mvn surefire-report:report
+						sh 'mvn surefire-report:report'
 						// this is the path to your unit test report: your-project/target/site/surefire-report.html
 					},
 					"integration tests": {
 						echo 'integration tests'
-						mvn verify -fn	// generate a maven integration test report
+						sh 'mvn verify -fn'	// generate a maven integration test report
 						junit '**/target/surefire-reports/TEST-*.xml'	// generate a junit test report
 						//  archive 'target/*.jar' // i thought we were only going to archive on success, so this should just be a stash and the artifact for the todo-api should be *.war
 				}
