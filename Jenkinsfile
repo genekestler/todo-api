@@ -5,7 +5,7 @@ pipeline {
       skipDefaultCheckout()
    }
 	agent none
-	script {artifactName = *.war'}
+//	script {artifactName = *.war'}
 	stages {
 		stage('Checkout') {
 			agent { label 'docker-cloud' }
