@@ -19,7 +19,7 @@ pipeline {
 			steps {echo 'INFO - Starting Build phase'
 			//     sh 'mvn validate'
 			//     sh 'mvn compile'
-			       sh 'mvn -Dmaven.test.failure.ignore clean install' 
+	//		       sh 'mvn -Dmaven.test.failure.ignore clean install' 
 			       // clean install does a compile, so no reason to do compile, also runs unit tests
 			}
 		}
