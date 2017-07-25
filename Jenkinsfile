@@ -41,8 +41,8 @@ pipeline {
 						sh 'mvn verify -fn'	// generate a maven integration test report
 						junit '**/target/surefire-reports/TEST-*.xml'	// generate a junit test report
 						//  archive 'target/*.jar' // i thought we were only going to archive on success, so this should just be a stash and the artifact for the todo-api should be *.war
-				}
-			)
+					}
+				)
 			}
 		}
 		stage('Package') {
