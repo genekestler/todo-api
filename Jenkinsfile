@@ -19,7 +19,8 @@ pipeline {
 			steps {echo 'INFO - Starting Build phase'
 			//     sh 'mvn validate'
 			//     sh 'mvn compile'
-			       sh 'mvn -Dmaven.test.failure.ignore clean install' // clean install does a compile, so no reason to do compile, also runs unit tests
+			       sh 'mvn -Dmaven.test.failure.ignore clean install' 
+			       // clean install does a compile, so no reason to do compile, also runs unit tests
 			}
 		}
 		stage('Test') {
@@ -55,8 +56,8 @@ pipeline {
 	//		sh 'mvn deploy' // this won't work until the todo-api pom is not configured to deploy
 	//		sh """
 	//   		rm -rf ${somevalue}/webapps/ROOT                 // remove a directory and files without comfirmation
-	//			mv -f ${somevalue}                               // move files from one directory to another without prompting
-	//			cp -rf ${war} ${somevalue}/webapps/ROOT.war      // copy files from one location to another without prompting
+	//		mv -f ${somevalue}                               // move files from one directory to another without prompting
+	//		cp -rf ${war} ${somevalue}/webapps/ROOT.war      // copy files from one location to another without prompting
 	//			${somevalue}/bin/startup.sh
 	//		"""
 	//-------------------------------------------------------------
