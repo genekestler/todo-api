@@ -1,4 +1,3 @@
-
 pipeline {
    options {              
       timeout(time: 5, unit: 'MINUTES')
@@ -20,7 +19,7 @@ pipeline {
 			steps {echo 'INFO - Starting Build phase'
 			//     sh 'mvn validate'
 			//     sh 'mvn compile'
-			       sh 'mvn clean install' // clean install does a compile, so no reason to do compile, also runs unit tests
+			       sh 'mvn -Dmaven.test.failure.ignore clean install' // clean install does a compile, so no reason to do compile, also runs unit tests
 			}
 		}
 		stage('Test') {
@@ -38,7 +37,7 @@ pipeline {
 						echo 'integration tests'
 						sh 'mvn verify -fn'	// generate a maven integration test report
 						junit '**/target/surefire-reports/TEST-*.xml'	// generate a junit test report
-					}
+					}, failFast: true
 				)
 			}
 		}
