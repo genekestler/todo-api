@@ -19,7 +19,7 @@ pipeline {
 			steps {echo 'INFO - Starting Build phase'
 			//     sh 'mvn validate'
 			//     sh 'mvn compile'
-	//		       sh 'mvn -Dmaven.test.failure.ignore clean install' 
+			       sh 'mvn -Dmaven.test.failure.ignore clean install' 
 			       // clean install does a compile, so no reason to do compile, also runs unit tests
 			}
 		}
@@ -29,15 +29,15 @@ pipeline {
 				parallel (
 					"unit test": {
 						echo 'unit tests'
-						sh 'mvn test'
+					//	sh 'mvn test'
 						// generate a maven unit test report using surefire
-						sh 'mvn surefire-report:report'
+						sh 'mvn -Dmaven.test.failure.ignore surefire-report:report'
 						// this is the path to your unit test report: your-project/target/site/surefire-report.html
 					},
 					"integration tests": {
 						echo 'integration tests'
 						sh 'mvn verify -fn'	// generate a maven integration test report
-						junit '**/target/surefire-reports/TEST-*.xml'	// generate a junit test report
+						junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'	// generate a junit test report
 					}, failFast: true
 				)
 			}
@@ -45,7 +45,9 @@ pipeline {
 		stage('Package') {
 			agent {label 'maven-jdk-8'}
 			steps {echo 'INFO - Starting Package phase'
-				sh 'mvn clean package'
+			//	sh 'mvn clean package'
+			       	sh 'mvn -Dmaven.repo.local=/usr/share/maven/ref -DGIT_COMMIT="${SHORT_COMMIT}" 
+                -DBUILD_NUMBER=${BUILD_NUMBER} -DBUILD_URL=${BUILD_URL} clean package'
 				stash name: 'artifactName', includes: '*.xml'
 			}
 		}
