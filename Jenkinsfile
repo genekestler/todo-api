@@ -22,18 +22,19 @@ pipeline {
 			steps {echo 'INFO - Starting Build phase'
 			       sh 'mvn validate'
 			       sh 'mvn compile'
-			       sh 'mvn clean install' // clean install does a compile, so no reason to do compile, also runs unit tests
+			       sh 'mvn clean install' // clean install does a compile, so no reason to do compile, also runs unit tests
 			}
 		}
 		stage('Test') {
-		  steps {
-			echo 'INFO - Starting Test phase'
-			parallel(
-				"unit test": {
-					echo 'unit tests'
-					mvn test
-					mvn surefire-report:report			    // generate a maven unit test report using surefire
-					// this is the path to your unit test report: your-project/target/site/surefire-report.html
+			steps {
+				echo 'INFO - Starting Test phase'
+				parallel(
+					"unit test": {
+						echo 'unit tests'
+						mvn test
+						// generate a maven unit test report using surefire
+						mvn surefire-report:report
+						// this is the path to your unit test report: your-project/target/site/surefire-report.html
 				},
 				"integration tests": {
 					echo 'integration tests'
