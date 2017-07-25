@@ -67,10 +67,10 @@ pipeline {
 				}
 			}
 		}
-	post {				
+	post {
 		success {
 			unstash 'artifactName'
 			archive "target/${artifactName}"
 		}
-	}	
+	}
 }
