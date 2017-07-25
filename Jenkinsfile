@@ -5,7 +5,7 @@ pipeline {
       skipDefaultCheckout()
    }
 	agent none
-	script {artifactName='*.war'}
+	script {artifactName = *.war'}
 	stages {
 		stage('Checkout') {
 			agent { label 'docker-cloud' }
@@ -15,7 +15,7 @@ pipeline {
 					gitShortCommit(7)
 				}
 		}
-	stage('Build') {
+		stage('Build') {
 			steps {echo 'INFO - Starting Build phase'
 			       sh 'mvn validate'
 			       sh 'mvn compile'
@@ -23,8 +23,8 @@ pipeline {
 			}
 		}
 		stage('Test') {
-			steps {echo 'INFO - Starting Test phase'
-				parallel(
+			steps {
+				parallel (
 					"unit test": {
 						echo 'unit tests'
 						sh 'mvn test'
@@ -46,7 +46,7 @@ pipeline {
 				stash name: 'artifactName', includes: '*.xml'
 			}
 		}
-		stage('Deploy') {
+		stage('Deploy Archive Artifacts') {
 			steps {echo 'INFO - Starting Deploy phase'
 	//-------------------------------------------------------------
 	//		sh 'mvn deploy' // this won't work until the todo-api pom is not configured to deploy
