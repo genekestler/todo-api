@@ -14,7 +14,7 @@ pipeline {
 				steps {
 					echo 'INFO - Retrieving Source'
 			//		git 'https://github.com/jglick/simple-maven-project-with-tests.git'
-					checkout scm        // create a multi-branch project that only checks out this branch
+					checkout scm		// create a multi-branch project that only checks out this branch
 					gitShortCommit(7)
 				}
 		}
