@@ -45,10 +45,8 @@ pipeline {
 		stage('Package') {
 			agent {label 'maven-jdk-8'}
 			steps {echo 'INFO - Starting Package phase'
-			//	sh 'mvn clean package'
-			       	sh 'mvn -Dmaven.repo.local=/usr/share/maven/ref -DGIT_COMMIT="${SHORT_COMMIT}" 
-                -DBUILD_NUMBER=${BUILD_NUMBER} -DBUILD_URL=${BUILD_URL} clean package'
-				stash name: 'artifactName', includes: '*.xml'
+				sh 'mvn clean package'
+			       	stash name: 'artifactName', includes: '*.xml'
 			}
 		}
 		stage('Deploy Archive Artifacts') {
