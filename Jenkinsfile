@@ -1,7 +1,7 @@
 pipeline {
     options { 
         timeout(time: 5, unit: 'MINUTES')
-		buildDiscarder(logRotator(numToKeepStr: '5')) 
+	buildDiscarder(logRotator(numToKeepStr: '5')) 
         skipDefaultCheckout() 
     }
     agent none
